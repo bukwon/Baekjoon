@@ -22,6 +22,7 @@ public class Main {
             medeium = K / coin[i];
             K %= coin[i];
             result += medeium;
+            if (K == 0) break;
         }
         bw.write(result + " ");
         bw.flush(); bf.close();
