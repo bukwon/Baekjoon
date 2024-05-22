@@ -1,56 +1,56 @@
-import java.util.Deque;
-import java.util.Iterator;
+import java.io.*;
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(bf.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
         int[] num = new int[m];
-        for (int i = 0; i < m; i++) num[i] = sc.nextInt();
-        System.out.println(solution(n, m, num));
+        st = new StringTokenizer(bf.readLine());
+        for (int i = 0; i < m; i++) num[i] = Integer.parseInt(st.nextToken());
+        bw.write(solution(n, m, num) + " ");
+        bw.flush(); bw.close(); bf.close();
     }
 
-    private static int solution(int n, int m, int[] num) {
+    private static String solution(int n, int m, int[] num) {
         int answer = 0;
-        Deque<Integer> deque1 = new LinkedList<>();
-        Deque<Integer> deque2 = new LinkedList<>();
-        int[] arr = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            deque1.add(i);
-            deque2.add(i);
-            arr[i] = i;
-        }
+        StringBuilder sb = new StringBuilder();
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 1; i <= n; i++) list.add(i);
 
-        int[] left = new int[m];
-        int[] right = new int[m];
-        int count = 0;
         for (int i = 0; i < m; i++) {
-            int tmp = deque1.pollFirst();
-            while (num[i] != tmp) {
-                deque1.offerLast(tmp);
-                count ++;
-                tmp = deque1.pollFirst();
+            int count = 0;
+            if (check(num[i], list)) {
+                for (int j = 0; j <= list.size() / 2; j++) {
+                    int tmp = list.pollFirst();
+                    if (tmp == num[i]) break;
+                    count ++;
+                    list.offerLast(tmp);
+                }
+            } else {
+                for (int j = list.size() / 2 + 1; j < list.size(); j++) {
+                    int tmp = list.pollLast();
+                    count ++;
+                    if (tmp == num[i]) break;
+                    list.offerFirst(tmp);
+                }
             }
-            left[i] = count;
-            count = 0;
+            answer += count;
         }
+        
+        return String.valueOf(sb.append(answer));
+    }
 
-        count = 1;
-        for (int i = 0; i < m; i++) {
-            int tmp = deque2.pollLast();
-            while (num[i] != tmp) {
-                deque2.offerFirst(tmp);
-                count ++;
-                tmp = deque2.pollLast();
-            }
-            right[i] = count;
-            count = 1;
+    private static boolean check(int i, LinkedList<Integer> list) {
+        int size = list.size();
+
+        for (int j = 0; j <= size / 2; j++) {
+            if (list.get(j) == i) return true;
         }
-
-        for (int i = 0; i < m; i++) answer += Math.min(left[i], right[i]);
-        return answer;
+        return false;
     }
 }
