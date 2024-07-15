@@ -32,8 +32,8 @@ public class Main {
     }
 
     private static void solution() {
+        answer = S.clone();
         for (int i = 0; i < k; i++) {
-            answer = S.clone();
             for (int j = 0; j < n; j++) {
                 answer[D[j] - 1] = S[j];
             }
