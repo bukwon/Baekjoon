@@ -5,6 +5,7 @@ public class Main {
     static int answer = 0;
     static int len;
     static char[] cry = {'q', 'u', 'a', 'c', 'k'};
+    
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         c = bf.readLine().toCharArray();
@@ -17,30 +18,43 @@ public class Main {
             System.out.println(-1);
             return;
         }
-        while (len > 0) {
+        
+        boolean[] used = new boolean[len];
+        while (true) {
             int check = 0;  // 오리 울음소리 자리 체크
             boolean flag = false; // 한번도 안울었음을 방지하기 위함
-            int tmpLen = len;
-            for (int i = 0; i < tmpLen; i ++) {
-                if (cry[check] == c[i]) {
+            
+            for (int i = 0; i < len; i++) {
+                if (!used[i] && cry[check] == c[i]) {
                     check++;
-                    c[i] = ' ';
+                    used[i] = true;
                     if (check == 5) {
-                        len -= 5;
                         check = 0;
                         flag = true;
                     }
                 }
             }
-            if (!flag || check > 0) {
-                answer = -1;
+            
+            if (check != 0) {
+                System.out.println(-1);
+                return;
+            }
+            
+            if (!flag) {
                 break;
-            } else {
-                answer ++;
-                String s = String.valueOf(c).replaceAll(" ", "");
-                c = s.toCharArray();
+            }
+            
+            answer++;
+        }
+
+        // 모든 문자를 사용했는지 확인
+        for (boolean b : used) {
+            if (!b) {
+                System.out.println(-1);
+                return;
             }
         }
-        System.out.println(len == 0 ? answer : -1);
+        
+        System.out.println(answer);
     }
 }
