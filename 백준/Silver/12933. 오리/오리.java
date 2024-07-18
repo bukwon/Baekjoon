@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 
 public class Main {
     static char[] c;
@@ -8,15 +7,16 @@ public class Main {
     static char[] cry = {'q', 'u', 'a', 'c', 'k'};
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         s = bf.readLine();
         c = s.toCharArray();
         implementation(c);
-        bw.write(answer + "");
-        bw.flush(); bw.close(); bf.close();
     }
 
     private static void implementation(char[] c) {
+        if (s.length() % 5 != 0) {
+            System.out.println(-1);
+            return;
+        }
         while (!s.isEmpty()) {
             int check = 0;  // 오리 울음소리 자리 체크
             boolean flag = false; // 한번도 안울었음을 방지하기 위함
@@ -39,5 +39,6 @@ public class Main {
                 c = s.toCharArray();
             }
         }
+        System.out.println(s.isEmpty() ? answer : -1);
     }
 }
