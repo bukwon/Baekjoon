@@ -1,15 +1,15 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<String> sentences = new ArrayList<>();
         String s = "";
         while(true) {
-            s = sc.nextLine();
+            s = bf.readLine();
             if (s.equals("END")) break;
             sentences.add(s);
         }
