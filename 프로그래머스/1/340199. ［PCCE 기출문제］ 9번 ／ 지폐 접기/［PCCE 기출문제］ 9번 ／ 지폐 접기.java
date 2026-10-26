@@ -14,6 +14,7 @@ class Solution {
                 break;
             }
             
+            // 지갑에 들어갈 사이즈가 아니라면 반으로 접기
             if (bill[0] > bill[1]) {
                 bill[0] /= 2;
             } else {
