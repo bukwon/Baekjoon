@@ -1,6 +1,5 @@
 class Solution {
     public int solution(int[] bandage, int health, int[][] attacks) {
-        int answer = 0;
         // t : 기술 시간
         // x : 붕대 감으면 채워지는 체력
         // y : 추가 체력 회복
@@ -28,24 +27,21 @@ class Solution {
                     return -1;
                 }
             } else {
-                int recovery = 0;
+                int recovery = x;
                 success_check ++;
                 
                 // 추가 회복 쿨 타임
                 if (t == success_check) {
-                    recovery += y + x;
+                    recovery += y;
                     success_check = 0;
-                } else { // 기본 추가 회복
-                    recovery += x;
                 }
                 
                 // 체력 회복 될 때 기본 체력보다 초과되면 아니된다.
-                health = health + recovery >= max_health ? max_health : health + recovery;
+                health = Math.min(health + recovery, max_health);
+                // health = health + recovery >= max_health ? max_health : health + recovery;
             }
         }
         
-        answer = health;
-        
-        return answer;
+        return health;
     }
 }
