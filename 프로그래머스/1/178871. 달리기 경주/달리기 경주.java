@@ -5,47 +5,22 @@ class Solution {
         // 선수들 나열 players
         // 선수들 부른 이름 callings
         
-        
-        int players_num = players.length;
-        
-        
         HashMap<String, Integer> player_list = new HashMap<>();
-        for (int i = 0; i < players_num; i ++) {
+        for (int i = 0; i < players.length; i ++) {
             player_list.put(players[i], i);
         }
         
-        for (String s : callings) {
-            int rank = player_list.get(s);
+        for (String calledPlayer : callings) {
+            int currentIndex = player_list.get(calledPlayer);
+            String frontPlayer = players[currentIndex - 1];
             
-            if (rank <= 0) {
-                continue;
-            }
+            players[currentIndex - 1] = calledPlayer;
+            players[currentIndex] = frontPlayer;
             
-            String current = players[rank];
-            String front = players[rank - 1];
-            
-            players[rank] = front;
-            players[rank - 1] = current;
-            
-            player_list.put(current, rank - 1);
-            player_list.put(front, rank);
+            player_list.put(calledPlayer, currentIndex - 1);
+            player_list.put(frontPlayer, currentIndex);
         }
-        
-        List<String> keySet = new ArrayList<>(player_list.keySet());
-        
-        keySet.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return player_list.get(o1).compareTo(player_list.get(o2));
-            }
-        });
-        
-        String[] answer = new String[players_num];
-        
-        for(int i = 0; i < players_num; i ++) {
-            answer[i] = keySet.get(i);
-        }
-        
-        return answer;
+
+        return players;
     }
 }
